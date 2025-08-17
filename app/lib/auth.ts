@@ -7,6 +7,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 export const login = async (name: string, password: string) => {
     try {
         const response = await axios.post(`${apiUrl}/auth/login`, { name, password });
+        console.log(`${apiUrl}/auth/login`, { name, password });
         store.dispatch(setCredentials({ 
             token: response.data.token, 
             userName: name 
