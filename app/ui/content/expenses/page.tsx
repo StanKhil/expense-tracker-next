@@ -12,6 +12,7 @@ export default function Page() {
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState<number>(0);
     const [category, setCategory] = useState<ExpenseCategory>(ExpenseCategory.Other);
+    const [date, setDate] = useState<string>(new Date().toISOString().split("T")[0]);
     const [loading, setLoading] = useState(false);
 
     const fetchExpenses = async () => {
@@ -36,7 +37,7 @@ export default function Page() {
             const newExpense: Expense = {
                 title,
                 amount,
-                date: new Date().toISOString(),
+                date,
                 category,
                 userId: "",
             };
@@ -45,6 +46,7 @@ export default function Page() {
             setTitle("");
             setAmount(0);
             setCategory(ExpenseCategory.Other);
+            setDate(new Date().toISOString().split("T")[0]);
         } catch (error) {
         console.error("Failed to create expense:", error);
         }
@@ -60,9 +62,6 @@ export default function Page() {
             console.error("Failed to delete expense:", error);
         }
     };
-
-
-
 
     return (
         <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20"
@@ -104,6 +103,12 @@ export default function Page() {
                     <option key={cat} value={cat}>{cat}</option>
                 ))}
                 </select>
+                <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
                 <button
                 type="submit"
                 className="bg-[var(--foreground)] text-[var(--background)] font-semibold py-3 rounded hover:bg-indigo-500 transition-colors"

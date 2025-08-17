@@ -37,7 +37,7 @@ export const getIncomeById = async (id: string): Promise<Income> => {
 
 export const createIncome = async (income: Income): Promise<Income> => {
   try {
-    if (!income.userId || !income.title || !income.amount || !income.date || !income.category) {
+    if (!income.title || !income.amount || !income.date || !income.category) {
       throw new Error("Missing required fields for income creation");
     }
     const response = await axios.post(`${apiUrl}/incomes`, income, {
@@ -52,7 +52,7 @@ export const createIncome = async (income: Income): Promise<Income> => {
 
 export const updateIncome = async (id: string, income: Income): Promise<Income> => {
   try {
-    if (!income.userId || !income.title || !income.amount || !income.date || !income.category) {
+    if (!income.title || !income.amount || !income.date || !income.category) {
       throw new Error("Missing required fields for income update");
     }
     const response = await axios.put(`${apiUrl}/incomes/${id}`, income, {

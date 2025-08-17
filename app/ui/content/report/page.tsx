@@ -30,6 +30,7 @@ export default function Page() {
 
     const [filteredIncomes, setFilteredIncomes] = useState<Income[]>([]);
     const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([]);
+    const [statisticYear, setStatisticYear] = useState<number>(new Date().getFullYear());
 
     const incomeCategories = Object.values(IncomeCategory);
     const expenseCategories = Object.values(ExpenseCategory);
@@ -102,17 +103,25 @@ export default function Page() {
         }
     };
 
-    const chartData = months.map((month, index) => {
+    const chartData = months.map((month, index, array) => {
+        const year = statisticYear;
         const income = filteredIncomes
-            .filter(i => new Date(i.date).getMonth() === index)
+            .filter(i => {
+            const d = new Date(i.date);
+            return d.getMonth() === index && d.getFullYear() === year;
+            })
             .reduce((sum, i) => sum + i.amount, 0);
 
         const expense = filteredExpenses
-            .filter(e => new Date(e.date).getMonth() === index)
+            .filter(e => {
+            const d = new Date(e.date);
+            return d.getMonth() === index && d.getFullYear() === year;
+            })
             .reduce((sum, e) => sum + e.amount, 0);
 
         return {
             month,
+            year,
             Income: income,
             Expense: expense,
             Total: income - expense,
@@ -244,6 +253,15 @@ export default function Page() {
                     <option value="incomes">Incomes</option>
                     <option value="all">All</option>
                 </select>
+                <input
+                    type="number"
+                    min="2000"
+                    max="2100"
+                    placeholder="Enter year"
+                    className="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-indigo-400 transition mb-6"
+                    value={statisticYear}
+                    onChange={(e) => setStatisticYear(Number(e.target.value))}
+                />
 
                 <ResponsiveContainer width="100%" height={350}>
                     <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>

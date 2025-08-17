@@ -40,7 +40,7 @@ export const getExpenseById = async (id: string) => {
 
 export const createExpense = async (expense: Expense) => {
   try {
-    if (!expense || !expense.userId || !expense.title || !expense.amount || !expense.date || !expense.category) {
+    if (!expense || !expense.title || !expense.amount || !expense.date || !expense.category) {
       throw new Error("Invalid expense data");
     }
     const response = await axios.post(`${apiUrl}/expenses/`, expense, {
